@@ -8,11 +8,9 @@ WordPress-Plugin: Shortcode für Videoportal-Einbindung
 
 Weitere optionale Parameter:
 
-image   URL für Poster-Bilddatei
-
-width   Breite des Players
-
-height  Höhe des Players
+- image   URL für Poster-Bilddatei
+- width   Breite des Players
+- height  Höhe des Players
 
 
 Entwickler: 
