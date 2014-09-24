@@ -1,0 +1,49 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: FAU-Video-Player\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-09-24 16:39+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: RRZE-Webteam\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e;_ex:1,2c;esc_attr__;esc_attr_e;_n:1,2;"
+"_nx:4c,1,2;_x:1,2c\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 1.6.5\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../fau-video.php:73
+#, php-format
+msgid ""
+"Ihre PHP-Version %s ist veraltet. Bitte aktualisieren Sie mindestens auf die "
+"PHP-Version %s."
+msgstr ""
+"Your server is running PHP version %s. Please upgrade at least to PHP "
+"version %s."
+
+#: ../fau-video.php:77
+#, php-format
+msgid ""
+"Ihre Wordpress-Version %s ist veraltet. Bitte aktualisieren Sie mindestens "
+"auf die Wordpress-Version %s."
+msgstr ""
+"Your Wordpress version is %s. Please upgrade at least to Wordpress version "
+"%s."
+
+#: ../fau-video.php:105
+msgid "Es wurde keine Adresse zu einem Video eingegeben."
+msgstr "Please enter a video-URL."
+
+#: ../fau-video.php:135
+msgid "Video wird geladen..."
+msgstr "Loading the player..."
+
+#: ../fau-video.php:140
+msgid "Es können nur Videos vom Videoportal eingebunden werden."
+msgstr "Only videos from http://fau.tv can be embedded."
