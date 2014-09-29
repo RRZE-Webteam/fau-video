@@ -3,7 +3,7 @@
 /**
  * Plugin Name: FAU Video-Player
  * Description: Shortcode für Videos vom Videoportal
- * Version: 1.0
+ * Version: 1.1
  * Author: RRZE-Webteam
  * Author URI: http://blogs.fau.de/webworking/
  * License: GPLv2 or later
@@ -115,7 +115,7 @@ class FAU_Video_Player {
                     if (isset($video['image'])) {
                         $image = $video['image'];
                     } else {
-                        $image = 'http://cdn.video.uni-erlangen.de/Images/itunes_fau_800x400.png';
+                        $image = plugins_url('/', __FILE__) . 'img/itunes_fau_800x400.png';
                     } 
                 }
                 if (isset($video['width']) && isset($video['height'])) {
@@ -134,7 +134,7 @@ class FAU_Video_Player {
                 } 
                 $loading = __('Video wird geladen...', self::textdomain);
                 ob_start();
-                echo "<div id='" . $url . "'>" . $loading . "</div>\n<script type='text/javascript'>\n   jwplayer('" . $url . "').setup({\n    file: '" . $file . "',\n    image: '" . $image . "',\n    width: " . $width . ",\n    height: " . $height . "    });\n</script>";
+                echo "<div id='" . $url . "'>" . $loading . "</div>\n<script type='text/javascript'>\n   jwplayer('" . $url . "').setup({\n    flashplayer: '" . plugins_url('/', __FILE__) . 'js/player.swf' . "',\n    skin: '" . plugins_url('/', __FILE__) . 'skin/glow.zip' . "',\n    file: '" . $file . "',\n    image: '" . $image . "',\n    width: " . $width . ",\n    height: " . $height . "    });\n</script>";
                 return ob_get_clean();
             } else {
                 return __('Es können nur Videos vom Videoportal eingebunden werden.', self::textdomain);
