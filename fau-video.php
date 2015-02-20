@@ -32,7 +32,7 @@ register_deactivation_hook(__FILE__, array('FAU_Video_Player', 'deactivate'));
 
 class FAU_Video_Player {
 
-    const version = '1.1';
+    const version = '1.2';
     const option_name = '_fau_video_player';
     const version_option_name = '_fau_video_player_version';
     const textdomain = 'fau-video-player';
