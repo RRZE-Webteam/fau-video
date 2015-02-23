@@ -70,7 +70,8 @@ class FAU_Video_Player {
     }
     public function print_script() {
 	if ($this->embedscript==true) {
-	    wp_print_scripts('fauvideo');
+	  //  wp_print_scripts('fauvideo');
+	      wp_enqueue_script('fauvideo');
 	}
 	return;	
     }
