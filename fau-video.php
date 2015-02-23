@@ -3,7 +3,7 @@
 /**
  * Plugin Name: FAU Video-Player
  * Description: Shortcode für Videos vom Videoportal
- * Version: 1.1
+ * Version: 1.2
  * Author: RRZE-Webteam
  * Author URI: http://blogs.fau.de/webworking/
  * License: GPLv2 or later
@@ -38,7 +38,7 @@ class FAU_Video_Player {
     const textdomain = 'fau-video-player';
     const php_version = '5.3'; // Minimal erforderliche PHP-Version
     const wp_version = '4.0'; // Minimal erforderliche WordPress-Version
-    static $embedscript;
+    protected $embedscript = false;
     private $videoportal = array('www.video.uni-erlangen.de', 'www.video.fau.de', 'video.fau.de', 'www.fau-tv.de', 'fau-tv.de', 'www.fau.tv', 'fau.tv');
 
     protected static $instance = null;
@@ -49,7 +49,6 @@ class FAU_Video_Player {
             self::$instance = new self;
             self::$instance->init();
         }
-
         return self::$instance;
     }
 
@@ -57,50 +56,23 @@ class FAU_Video_Player {
         load_plugin_textdomain(self::textdomain, false, dirname(plugin_basename(__FILE__)) . '/languages/');
 
         add_shortcode('fauvideo', array($this, 'shortcode'));
-	// if (self::$embedscript==true) {
-	 add_action('init', array($this, 'register_scripts'));
-        //add_filter('oembed_fetch_url', array($this, 'oembed_url_filter'), 10, 3);
-//	}
-	//add_action('wp_footer', array($this, 'print_script'));
 	
+	  $this->displayscript(true);
+	add_action('init', array($this, 'enqueue_scripts'));
+
     }
 
-    public function register_scripts() {      
-        wp_enqueue_script('fauvideo', plugins_url('/', __FILE__) . 'js/jwplayer.js', false, self::version);
+    public function displayscript($show = false) {
+	$this->embedscript = $show;
     }
-
-    public function print_script() {
-	//	if ( ! self::$embedscript )
-	//		return;
-		wp_print_scripts('fauvideo');
-	}
     
-    public static function activate() {
-        self::version_compare();
-        update_option(self::version_option_name, self::version);
+    public function enqueue_scripts() {      
+	 if ($this->embedscript==true) {
+	    wp_enqueue_script('fauvideo', plugins_url('/', __FILE__) . 'js/jwplayer.js', false, self::version);
+	 }
+	return;
     }
 
-    private static function version_compare() {
-        $error = '';
-
-        if (version_compare(PHP_VERSION, self::php_version, '<')) {
-            $error = sprintf(__('Ihre PHP-Version %s ist veraltet. Bitte aktualisieren Sie mindestens auf die PHP-Version %s.', self::textdomain), PHP_VERSION, self::php_version);
-        }
-
-        if (version_compare($GLOBALS['wp_version'], self::wp_version, '<')) {
-            $error = sprintf(__('Ihre Wordpress-Version %s ist veraltet. Bitte aktualisieren Sie mindestens auf die Wordpress-Version %s.', self::textdomain), $GLOBALS['wp_version'], self::wp_version);
-        }
-
-        if (!empty($error)) {
-            deactivate_plugins(plugin_basename(__FILE__), false, true);
-            wp_die($error);
-        }
-    }
-
-    public static function update_version() {
-        if (get_option(self::version_option_name, null) != self::version)
-            update_option(self::version_option_name, self::version);
-    }
 
     public function shortcode($atts) {
         $default = array(
@@ -127,9 +99,7 @@ class FAU_Video_Player {
 		$file = '';
                 if (isset($video['file'])) {
                     $file = $video['file'];       
-		    
-		    self::$embedscript = true;
-		    
+		   $this->displayscript(true);
 		    if (filter_var($image, FILTER_VALIDATE_URL)) {
 			// nehme $image von der shortcodeeingabe
 		    } else {
@@ -202,4 +172,30 @@ class FAU_Video_Player {
         }
     }
     
+    public static function activate() {
+        self::version_compare();
+        update_option(self::version_option_name, self::version);
+    }
+
+    private static function version_compare() {
+        $error = '';
+
+        if (version_compare(PHP_VERSION, self::php_version, '<')) {
+            $error = sprintf(__('Ihre PHP-Version %s ist veraltet. Bitte aktualisieren Sie mindestens auf die PHP-Version %s.', self::textdomain), PHP_VERSION, self::php_version);
+        }
+
+        if (version_compare($GLOBALS['wp_version'], self::wp_version, '<')) {
+            $error = sprintf(__('Ihre Wordpress-Version %s ist veraltet. Bitte aktualisieren Sie mindestens auf die Wordpress-Version %s.', self::textdomain), $GLOBALS['wp_version'], self::wp_version);
+        }
+
+        if (!empty($error)) {
+            deactivate_plugins(plugin_basename(__FILE__), false, true);
+            wp_die($error);
+        }
+    }
+
+    public static function update_version() {
+        if (get_option(self::version_option_name, null) != self::version)
+            update_option(self::version_option_name, self::version);
+    }
 }
