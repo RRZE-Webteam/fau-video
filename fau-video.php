@@ -57,21 +57,25 @@ class FAU_Video_Player {
 
         add_shortcode('fauvideo', array($this, 'shortcode'));
 	
-	  $this->displayscript(true);
-	add_action('init', array($this, 'enqueue_scripts'));
+	add_action('init', array($this, 'register_script'));
+	add_action('wp_footer', array($this, 'print_script'));
 
     }
+    public function register_script() {
+		wp_register_script('fauvideo', plugins_url('/', __FILE__) . 'js/jwplayer.js', false, self::version);
+	}
 
     public function displayscript($show = false) {
 	$this->embedscript = $show;
     }
-    
-    public function enqueue_scripts() {      
-	 if ($this->embedscript==true) {
-	    wp_enqueue_script('fauvideo', plugins_url('/', __FILE__) . 'js/jwplayer.js', false, self::version);
-	 }
-	return;
+    public function print_script() {
+	if ($this->embedscript==true) {
+	    wp_print_scripts('fauvideo');
+	}
+	return;	
     }
+	
+
 
 
     public function shortcode($atts) {
@@ -145,7 +149,7 @@ class FAU_Video_Player {
 		    }
 		    $loading = __('Video wird geladen...', self::textdomain);
 
-		    $output .= "<div id='video-" . $rand . "'>" . $loading . "</div>\n<script type='text/javascript'>\n   jwplayer('video-".$rand."').setup({\n    flashplayer: '" . plugins_url('/', __FILE__) . 'js/player.swf' . "',\n    skin: '" . plugins_url('/', __FILE__) . 'skin/glow.zip' . "',\n    file: '" . $file . "',\n    image: '" . $image . "',\n    width: " . $width . ",\n    height: " . $height . "    });\n</script>";
+		    $output .= "<div id='video-" . $rand . "'>" . $loading . "</div>\n<script type='text/javascript'>\njQuery(document).ready(function($) {   jwplayer('video-".$rand."').setup({\n    flashplayer: '" . plugins_url('/', __FILE__) . 'js/player.swf' . "',\n    skin: '" . plugins_url('/', __FILE__) . 'skin/glow.zip' . "',\n    file: '" . $file . "',\n    image: '" . $image . "',\n    width: " . $width . ",\n    height: " . $height . "   }); });\n</script>";
 		    
 		    if ($showinfo==true) {
 			 $output .= "<ul class=\"info\">\n";
