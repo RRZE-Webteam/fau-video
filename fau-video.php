@@ -238,11 +238,18 @@ class FAUVideoWidget extends WP_Widget
 		$url = esc_url($instance['url']);
 		$showtitle = intval($instance['showtitle']);
 		$showinfo = intval($instance['showinfo']);
+		$width = intval($instance['width']);
+		$height = intval($instance['height']);
+		$imageurl = esc_url($instance['imageurl']);
+		
 	   } else {
 		$title = '';
 		$url = '';
+		$imageurl = '';
 		$showtitle = 0;
 		$showinfo = 0;
+		$width = 200;
+		$height= 150;
 	   }
 		
 		echo '<p>';
@@ -251,9 +258,21 @@ class FAUVideoWidget extends WP_Widget
 		echo '</p>';
 		echo '<p>';
 			echo '<label for="'.$this->get_field_id('url').'">'. __('Video-URL',  'fau-video-player'). ': </label>';
-			echo '<input type="text" id="'.$this->get_field_id('url').'" name="'.$this->get_field_name('url').'" value="'.$url.'">';
+			echo '<input size="40" type="text" id="'.$this->get_field_id('url').'" name="'.$this->get_field_name('url').'" value="'.$url.'">';
 		echo '</p>';
 
+		echo '<p>';
+			echo '<label for="'.$this->get_field_id('width').'">'. __('Breite',  'fau-video-player'). ': </label>';
+			echo '<input  size="4" type="text" id="'.$this->get_field_id('width').'" name="'.$this->get_field_name('width').'" value="'.$width.'">';
+		echo '</p>';
+		echo '<p>';
+			echo '<label for="'.$this->get_field_id('height').'">'. __('Höhe',  'fau-video-player'). ': </label>';
+			echo '<input size="4" type="text" id="'.$this->get_field_id('height').'" name="'.$this->get_field_name('height').'" value="'.$height.'">';
+		echo '</p>';
+		echo '<p>';
+			echo '<label for="'.$this->get_field_id('imageurl').'">'. __('Vorschaubild-URL',  'fau-video-player'). ': </label>';
+			echo '<input size="40" type="text" id="'.$this->get_field_id('imageurl').'" name="'.$this->get_field_name('imageurl').'" value="'.$imageurl.'">';
+		echo '</p>';
 		?>
 		<p>
 		<select class="onoff" name="<?php echo $this->get_field_name('showtitle'); ?>" id="<?php echo $this->get_field_id('showtitle'); ?>">
@@ -261,7 +280,7 @@ class FAUVideoWidget extends WP_Widget
 		    <option value="1" <?php selected(1,$showtitle);?>>An</option>
 		</select>
 		<label for="<?php echo $this->get_field_id('showtitle'); ?>">
-		    <?php echo __('Zeige Titel','fau-video-player'); ?>
+		    <?php echo __('Zeige auch Videotitel','fau-video-player'); ?>
 		</label>
 		</p>	
 		<p>
@@ -270,7 +289,7 @@ class FAUVideoWidget extends WP_Widget
 		    <option value="1" <?php selected(1,$showinfo);?>>An</option>
 		</select>
 		<label for="<?php echo $this->get_field_id('showinfo'); ?>">
-		    <?php echo __('Zeige Metainformationen und Titel','fau-video-player'); ?>
+		    <?php echo __('Zeige Metainformationen und Videotitel','fau-video-player'); ?>
 		</label>
 		</p>
 		<?php 
@@ -282,9 +301,11 @@ class FAUVideoWidget extends WP_Widget
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['url'] = esc_url($new_instance['url']);
+		$instance['imageurl'] = esc_url($new_instance['imageurl']);
 		$instance['showinfo'] = intval($new_instance['showinfo']);
 		$instance['showtitle'] = intval($new_instance['showtitle']);
-
+		$instance['width'] = intval($new_instance['width']);
+		$instance['height'] = intval($new_instance['height']);
 		return $instance;
 	}
 
@@ -296,14 +317,16 @@ class FAUVideoWidget extends WP_Widget
 		if(!empty($instance['title']))	echo '<h2 class="small">'.$instance['title'].'</h2>';
 		
 		$url = esc_url($instance['url']);
+		$imageurl = esc_url($instance['imageurl']);
 		$showtitle = intval($instance['showtitle']);
 		$showinfo = intval($instance['showinfo']);
-		
+		$width = intval($instance['width']);
+		$height = intval($instance['height']);
 		$vp = new FAU_Video_Player;
 		$vp->displayscript(true);  
 		add_action('init', array($vp, 'register_script'));
 		add_action('wp_footer', array($vp, 'print_script'));
-		echo $vp->create_html($url, '', '', '' , $showtitle, $showinfo); 
+		echo $vp->create_html($url, $imageurl, $width, $height , $showtitle, $showinfo); 
 		
 		echo $after_widget;
 	}
