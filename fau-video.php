@@ -147,7 +147,21 @@ class FAU_Video_Player {
 		    $loading = '<a href="'.$file.'"><img src="'.$image.'" alt=""></a>';
 		    // $loading = __('Video wird geladen...', self::textdomain);
 
-		    $output .= "<div id='video-" . $rand . "'>" . $loading . "</div>\n<script type='text/javascript'>\njQuery(document).ready(function($) {   jwplayer('video-".$rand."').setup({\n    flashplayer: '" . plugins_url('/', __FILE__) . 'js/player.swf' . "',\n    skin: '" . plugins_url('/', __FILE__) . 'skin/glow.zip' . "',\n    file: '" . $file . "',\n    image: '" . $image . "',\n    width: " . $width . ",\n    height: " . $height . "   }); });\n</script>";
+		    $output .= "<div id='video-" . $rand . "'>" . $loading . "</div>\n"
+			    . "<script type='text/javascript'>\njQuery(document).ready(function($) {   "
+			    . "jwplayer('video-".$rand."').setup({\n    "
+			    . "flashplayer: '" . plugins_url('/', __FILE__) . 'js/player.swf' . "',\n    "
+			    . "skin: '" . plugins_url('/', __FILE__) . 'skin/glow.zip' . "',\n    "
+			    . "file: '" . $file . "',\n"
+			    . "image: '" . $image . "',\n"
+			    . "width: " . $width . ",\n"
+			    . "height: " . $height . ",\n"
+			    . "modes: ["
+			    . "	{type: 'flash', src: '" . plugins_url('/', __FILE__) . 'js/player.swf' . "'},"
+			    . " {type: 'html5', config: {'file': '".$file."', 'provider': 'video'} },"
+			    . " {type: 'download', config: {'file': '".$file."'} }"
+			    . "]"
+			    . "}); });\n</script>";
 		    
 		    if ($showinfo==true) {
 			 $output .= "<ul class=\"info\">\n";
