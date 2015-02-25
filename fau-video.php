@@ -157,8 +157,8 @@ class FAU_Video_Player {
 			    . "width: " . $width . ",\n"
 			    . "height: " . $height . ",\n"
 			    . "modes: ["
-			    . "	{type: 'flash', src: '" . plugins_url('/', __FILE__) . 'js/player.swf' . "'},"
 			    . " {type: 'html5', config: {'file': '".$file."', 'provider': 'video'} },"
+			    . "	{type: 'flash', src: '" . plugins_url('/', __FILE__) . 'js/player.swf' . "'},"
 			    . " {type: 'download', config: {'file': '".$file."'} }"
 			    . "]"
 			    . "}); });\n</script>";
