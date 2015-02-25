@@ -3,10 +3,11 @@
 /**
  * Plugin Name: FAU Video-Player
  * Description: Shortcode für Videos vom Videoportal
- * Version: 1.2
+ * Version: 1.3
  * Author: RRZE-Webteam
  * Author URI: http://blogs.fau.de/webworking/
  * License: GPLv2 or later
+ * Text Domain: fau-video-player
  */
 
 /*
@@ -54,7 +55,9 @@ class FAU_Video_Player {
 
     public function init() {
         load_plugin_textdomain(self::textdomain, false, dirname(plugin_basename(__FILE__)) . '/languages/');
-
+	
+	add_action('widgets_init', create_function('', 'return register_widget("FAUVideoWidget");'));
+	
         add_shortcode('fauvideo', array($this, 'shortcode'));
 	
 	add_action('init', array($this, 'register_script'));
@@ -62,7 +65,7 @@ class FAU_Video_Player {
 
     }
     public function register_script() {
-		wp_register_script('fauvideo', plugins_url('/', __FILE__) . 'js/jwplayer.js', false, self::version);
+		wp_register_script('fauvideo', plugins_url('/', __FILE__) . 'js/jwplayer.js', false, self::version,true);
 	}
 
     public function displayscript($show = false) {
@@ -70,30 +73,20 @@ class FAU_Video_Player {
     }
     public function print_script() {
 	if ($this->embedscript==true) {
-	  //  wp_print_scripts('fauvideo');
 	      wp_enqueue_script('fauvideo');
 	}
 	return;	
     }
-	
 
-
-
-    public function shortcode($atts) {
-        $default = array(
-            'url' => '',
-            'image' => '',
-            'width' => '',
-            'height' => '',
-	    'showtitle' => false,
-	    'showinfo'	=> false,
-	    'titletag' => ''
-        );
-        $atts = shortcode_atts($default, $atts);       
-        extract($atts);
-        if (empty($url)) {
-            return __('Es wurde keine Adresse zu einem Video eingegeben.', self::textdomain);
-        } else {
+    public function create_html($videourl = '', $placeholderimage = '', $width='', $height='',$showtitle=false, $showinfo=false, $titletag='h3') {
+	if (filter_var($videourl, FILTER_VALIDATE_URL)) {
+	    $url = $videourl;
+	    
+	    $image = ''; 
+	    if (filter_var($placeholderimage, FILTER_VALIDATE_URL)) {
+		$image = $placeholderimage;
+	    }
+	    
 	    $rand = rand();
             $host = parse_url($url, PHP_URL_HOST);    
             if (in_array($host, $this->videoportal)) {
@@ -104,7 +97,7 @@ class FAU_Video_Player {
 		$file = '';
                 if (isset($video['file'])) {
                     $file = $video['file'];       
-		   $this->displayscript(true);
+		    $this->displayscript(true);
 		    if (filter_var($image, FILTER_VALIDATE_URL)) {
 			// nehme $image von der shortcodeeingabe
 		    } else {
@@ -131,15 +124,17 @@ class FAU_Video_Player {
 			    }
 			}
 		    } 
-		    if (empty(trim($titletag))) {
-			$titletag = 'h2';
-		    }
+		    
 		    if ($showinfo==true) {
 			$showtitle = true;
 		    }
 		    $output .= '<div class="fauvideo-'.$rand.'" itemscope itemtype ="http://schema.org/Movie">';
-		    if (($showtitle ==true) && isset($video['title'])) {
-			$output .= "<$titletag itemprop=\"name\">".$video['title']."</$titletag>";
+		    if (isset($video['title'])) {
+			$output .= "<$titletag itemprop=\"name\"";
+			if ($showtitle ==false) {
+			    $output .= " class=\"screen-reader-text\"";
+			}
+			$output .= ">".$video['title']."</$titletag>";
 		    }
 		    
 		    $output .= '<meta itemprop="contentUrl" content="'.$file.'">';
@@ -148,14 +143,16 @@ class FAU_Video_Player {
 		    if (isset($video['image'])) {
 			$output .= '<meta itemprop="thumbnailUrl" content="'.$video['image'].'">';
 		    }
-		    $loading = __('Video wird geladen...', self::textdomain);
+		    
+		    $loading = '<a href="'.$file.'"><img src="'.$image.'" alt=""></a>';
+		    // $loading = __('Video wird geladen...', self::textdomain);
 
 		    $output .= "<div id='video-" . $rand . "'>" . $loading . "</div>\n<script type='text/javascript'>\njQuery(document).ready(function($) {   jwplayer('video-".$rand."').setup({\n    flashplayer: '" . plugins_url('/', __FILE__) . 'js/player.swf' . "',\n    skin: '" . plugins_url('/', __FILE__) . 'skin/glow.zip' . "',\n    file: '" . $file . "',\n    image: '" . $image . "',\n    width: " . $width . ",\n    height: " . $height . "   }); });\n</script>";
 		    
 		    if ($showinfo==true) {
 			 $output .= "<ul class=\"info\">\n";
 			 if (isset($video['author_name'])) {
-			    $output .= '<li>'.__('Vortrag',self::textdomain).': <span class="actor">'.$video['author_name'].'</span></li>'."\n";
+			    $output .= '<li>'.__('Autor',self::textdomain).': <span class="actor">'.$video['author_name'].'</span></li>'."\n";
 			 }
 			 $output .= '<li>'.__('Quelle',self::textdomain).': <a href="'.$url.'" class="isBasedOnUrl">'.$url.'</a></li>'."\n";
 			 if (isset($video['provider_name'])) {
@@ -174,9 +171,28 @@ class FAU_Video_Player {
             } else {
                 return __('Es können nur Videos vom Videoportal eingebunden werden.', self::textdomain);
             }
-        }
+	    
+	} else {
+	    return __('Fehlerhafte URL',self::textdomain);
+	}
     }
-    
+
+    public function shortcode($atts) {
+        $default = array(
+            'url' => '',
+            'image' => '',
+            'width' => '',
+            'height' => '',
+	    'showtitle' => false,
+	    'showinfo'	=> false,
+	    'titletag' => 'h2'
+        );
+        $atts = shortcode_atts($default, $atts);       
+        extract($atts);
+
+	return $this->create_html($url, $image, $width, $height, $showtitle, $showinfo, $titletag); 
+    }
+
     public static function activate() {
         self::version_compare();
         update_option(self::version_option_name, self::version);
@@ -204,3 +220,92 @@ class FAU_Video_Player {
             update_option(self::version_option_name, self::version);
     }
 }
+
+
+
+class FAUVideoWidget extends WP_Widget
+{
+	function FAUVideoWidget()
+	{
+		$widget_ops = array('classname' => 'FAUVideoWidget', 'description' => __('Video aus dem Videoportal einbinden', 'fau-video-player') );
+		$this->WP_Widget('FAUVideoWidget', 'FAU Videoportal', $widget_ops);
+	}
+
+	function form($instance) {
+		
+	    if( $instance) {
+		$title = esc_attr($instance['title']);
+		$url = esc_url($instance['url']);
+		$showtitle = intval($instance['showtitle']);
+		$showinfo = intval($instance['showinfo']);
+	   } else {
+		$title = '';
+		$url = '';
+		$showtitle = 0;
+		$showinfo = 0;
+	   }
+		
+		echo '<p>';
+			echo '<label for="'.$this->get_field_id('title').'">'. __('Titel',  'fau-video-player'). ': </label>';
+			echo '<input type="text" id="'.$this->get_field_id('title').'" name="'.$this->get_field_name('title').'" value="'.$title.'">';
+		echo '</p>';
+		echo '<p>';
+			echo '<label for="'.$this->get_field_id('url').'">'. __('Video-URL',  'fau-video-player'). ': </label>';
+			echo '<input type="text" id="'.$this->get_field_id('url').'" name="'.$this->get_field_name('url').'" value="'.$url.'">';
+		echo '</p>';
+
+		?>
+		<p>
+		<select class="onoff" name="<?php echo $this->get_field_name('showtitle'); ?>" id="<?php echo $this->get_field_id('showtitle'); ?>">
+		    <option value="0" <?php selected(0,$showtitle);?>>Aus</option>
+		    <option value="1" <?php selected(1,$showtitle);?>>An</option>
+		</select>
+		<label for="<?php echo $this->get_field_id('showtitle'); ?>">
+		    <?php echo __('Zeige Titel','fau-video-player'); ?>
+		</label>
+		</p>	
+		<p>
+		<select class="onoff" name="<?php echo $this->get_field_name('showinfo'); ?>" id="<?php echo $this->get_field_id('showinfo'); ?>">
+		    <option value="0" <?php selected(0,$showinfo);?>>Aus</option>
+		    <option value="1" <?php selected(1,$showinfo);?>>An</option>
+		</select>
+		<label for="<?php echo $this->get_field_id('showinfo'); ?>">
+		    <?php echo __('Zeige Metainformationen und Titel','fau-video-player'); ?>
+		</label>
+		</p>
+		<?php 
+		
+
+	}
+
+	function update($new_instance, $old_instance) {
+		$instance = $old_instance;
+		$instance['title'] = strip_tags($new_instance['title']);
+		$instance['url'] = esc_url($new_instance['url']);
+		$instance['showinfo'] = intval($new_instance['showinfo']);
+		$instance['showtitle'] = intval($new_instance['showtitle']);
+
+		return $instance;
+	}
+
+	function widget($args, $instance) {
+		extract($args, EXTR_SKIP);
+
+		echo $before_widget;
+		
+		if(!empty($instance['title']))	echo '<h2 class="small">'.$instance['title'].'</h2>';
+		
+		$url = esc_url($instance['url']);
+		$showtitle = intval($instance['showtitle']);
+		$showinfo = intval($instance['showinfo']);
+		
+		$vp = new FAU_Video_Player;
+		$vp->displayscript(true);  
+		add_action('init', array($vp, 'register_script'));
+		add_action('wp_footer', array($vp, 'print_script'));
+		echo $vp->create_html($url, '', '', '' , $showtitle, $showinfo); 
+		
+		echo $after_widget;
+	}
+}
+
