@@ -3,7 +3,7 @@
 /**
  * Plugin Name: FAU Video-Player
  * Description: Shortcode für Videos vom Videoportal
- * Version: 1.3
+ * Version: 1.4
  * Author: RRZE-Webteam
  * Author URI: http://blogs.fau.de/webworking/
  * License: GPLv2 or later
@@ -239,10 +239,10 @@ class FAU_Video_Player {
 
 class FAUVideoWidget extends WP_Widget
 {
-	function FAUVideoWidget()
+	function __construct()
 	{
 		$widget_ops = array('classname' => 'FAUVideoWidget', 'description' => __('Video aus dem Videoportal einbinden', 'fau-video-player') );
-		$this->WP_Widget('FAUVideoWidget', 'FAU Videoportal', $widget_ops);
+		parent::__construct('FAUVideoWidget', 'FAU Videoportal', $widget_ops);
 	}
 
 	function form($instance) {
