@@ -2,7 +2,7 @@
 /**
  * Plugin Name: FAU Video-Player
  * Description: Shortcode für Videos vom Videoportal
- * Version: 1.5.1
+ * Version: 1.5.2
  * Author: RRZE-Webteam
  * Author URI: http://blogs.fau.de/webworking/
  * License: GPLv2 or later
@@ -102,7 +102,7 @@ class FAU_Video_Player {
 			}
 		    } 
 		    
-		    if ($showinfo==true) {
+		    if ($showinfo) {
 			$showtitle = true;
 		    }
                     
@@ -110,7 +110,7 @@ class FAU_Video_Player {
 		    if (isset($video['title'])) {
 			$output .= "<$titletag itemprop=\"name\"";
                         
-			if ($showtitle ==false) {
+			if (!$showtitle) {
 			    $output .= " class=\"screen-reader-text\"";
 			}
                         
@@ -128,11 +128,11 @@ class FAU_Video_Player {
 		 
                     echo $output;
                     
-                    echo do_shortcode('[video preload="none" width="' . $width . '" height="' . $height . '" src="' . $file . '" poster="' . $image . '"][/video]');
+                    echo do_shortcode('[video preload="none" width="' . $width . '" height="' . absint($height - 20) . '" src="' . $file . '" poster="' . $image . '"][/video]');
                     
                     $output='';
 		    
-		    if ($showinfo==true) {                       
+		    if ($showinfo) {                       
 			 $output .= "<ul class=\"info\">\n";
                          
 			 if (isset($video['author_name'])) {
@@ -229,10 +229,10 @@ class FAUVideoWidget extends WP_Widget {
         if ($instance) {
             $title = esc_attr($instance['title']);
             $url = esc_url($instance['url']);
-            $showtitle = intval($instance['showtitle']);
-            $showinfo = intval($instance['showinfo']);
-            $width = intval($instance['width']);
-            $height = intval($instance['height']);
+            $showtitle = absint($instance['showtitle']) ? true : false;
+            $showinfo = absint($instance['showinfo']) ? true : false;
+            $width = absint($instance['width']);
+            $height = absint($instance['height']);
             $imageurl = esc_url($instance['imageurl']);
         } else {
             $title = '';
@@ -268,8 +268,8 @@ class FAUVideoWidget extends WP_Widget {
         ?>
         <p>
             <select class="onoff" name="<?php echo $this->get_field_name('showtitle'); ?>" id="<?php echo $this->get_field_id('showtitle'); ?>">
-                <option value="0" <?php selected(0, $showtitle); ?>><?php _e('Aus', 'fau-video'); ?></option>
-                <option value="1" <?php selected(1, $showtitle); ?>><?php _e('An', 'fau-video'); ?></option>
+                <option value="0" <?php selected(false, $showtitle); ?>><?php _e('Aus', 'fau-video'); ?></option>
+                <option value="1" <?php selected(true, $showtitle); ?>><?php _e('An', 'fau-video'); ?></option>
             </select>
             <label for="<?php echo $this->get_field_id('showtitle'); ?>">
                 <?php _e('Zeige auch Videotitel', 'fau-video'); ?>
@@ -277,8 +277,8 @@ class FAUVideoWidget extends WP_Widget {
         </p>	
         <p>
             <select class="onoff" name="<?php echo $this->get_field_name('showinfo'); ?>" id="<?php echo $this->get_field_id('showinfo'); ?>">
-                <option value="0" <?php selected(0, $showinfo); ?>>Aus</option>
-                <option value="1" <?php selected(1, $showinfo); ?>>An</option>
+                <option value="0" <?php selected(false, $showinfo); ?>>Aus</option>
+                <option value="1" <?php selected(true, $showinfo); ?>>An</option>
             </select>
             <label for="<?php echo $this->get_field_id('showinfo'); ?>">
                 <?php _e('Zeige Metainformationen und Videotitel', 'fau-video'); ?>
@@ -292,10 +292,10 @@ class FAUVideoWidget extends WP_Widget {
         $instance['title'] = strip_tags($new_instance['title']);
         $instance['url'] = esc_url($new_instance['url']);
         $instance['imageurl'] = esc_url($new_instance['imageurl']);
-        $instance['showinfo'] = intval($new_instance['showinfo']);
-        $instance['showtitle'] = intval($new_instance['showtitle']);
-        $instance['width'] = intval($new_instance['width']);
-        $instance['height'] = intval($new_instance['height']);
+        $instance['showtitle'] = absint($new_instance['showtitle']) ? true : false;
+        $instance['showinfo'] = absint($new_instance['showinfo']) ? true : false;        
+        $instance['width'] = absint($new_instance['width']);
+        $instance['height'] = absint($new_instance['height']);
         return $instance;
     }
 
@@ -310,10 +310,10 @@ class FAUVideoWidget extends WP_Widget {
         
         $url = esc_url($instance['url']);
         $imageurl = esc_url($instance['imageurl']);
-        $showtitle = intval($instance['showtitle']);
-        $showinfo = intval($instance['showinfo']);
-        $width = intval($instance['width']);
-        $height = intval($instance['height']);
+        $showtitle = absint($instance['showtitle']) ? true : false;
+        $showinfo = absint($instance['showinfo']) ? true : false;
+        $width = absint($instance['width']);
+        $height = absint($instance['height']);
         $vp = new FAU_Video_Player;
         $vp->create_html($url, $imageurl, $width, $height, $showtitle, $showinfo);
  
