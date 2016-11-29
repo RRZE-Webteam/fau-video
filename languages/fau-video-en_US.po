@@ -1,89 +1,216 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: FAU Video-Player v1.3\n"
+"Project-Id-Version: FAU Video\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-24 16:39+0100\n"
-"PO-Revision-Date: 2015-02-25 13:42:22+0100\n"
+"POT-Creation-Date: 2016-11-29 16:00+0100\n"
+"PO-Revision-Date: \n"
 "Last-Translator: \n"
-"Language-Team: RRZE-Webteam\n"
+"Language-Team: RRZE-Webteam <webmaster@rrze.fau.de>\n"
+"Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 1.6.5\n"
-"X-Poedit-Language: \n"
-"X-Poedit-Country: \n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
+"_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_ex:1,2c;"
+"esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-Basepath: .\n"
-"X-Poedit-Bookmarks: \n"
-"X-Poedit-SearchPath-0: ..\n"
-"X-Textdomain-Support: yes"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.8.11\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
 
-#: fau-video.php:205
-#, php-format
-#@ fau-video
-msgid "Ihre PHP-Version %s ist veraltet. Bitte aktualisieren Sie mindestens auf die PHP-Version %s."
-msgstr "Your server is running PHP version %s. Please upgrade at least to PHP version %s."
-
-#: fau-video.php:209
-#, php-format
-#@ fau-video
-msgid "Ihre Wordpress-Version %s ist veraltet. Bitte aktualisieren Sie mindestens auf die Wordpress-Version %s."
-msgstr "Your Wordpress version is %s. Please upgrade at least to Wordpress version %s."
-
-#: fau-video.php:172
-#@ fau-video
-msgid "Es können nur Videos vom Videoportal eingebunden werden."
-msgstr "Only videos from http://fau.tv can be embedded."
-
-#: fau-video.php:155
-#@ fau-video
+#: ../fau-video.php:144
 msgid "Autor"
 msgstr "Author"
 
-#: fau-video.php:157
-#@ fau-video
+#: ../fau-video.php:147
 msgid "Quelle"
 msgstr "Source"
 
-#: fau-video.php:159
-#@ fau-video
+#: ../fau-video.php:149
 msgid "Copyright"
 msgstr "Copyright"
 
-#: fau-video.php:166
-#@ fau-video
-msgid "Die angegebene URL lieferte keine Videodaten. Bitte verwenden Sie die Adresse aus dem Videoportal, in dem ein Video als solches auch angezeigt wird und keine Indexseite."
-msgstr "The URL you entered is no valid adress of a video on the videoportal."
+#: ../fau-video.php:159
+msgid ""
+"Die angegebene URL lieferte keine Videodaten. Bitte verwenden Sie die "
+"Adresse aus dem Videoportal, in dem ein Video als solches auch angezeigt "
+"wird und keine Indexseite."
+msgstr ""
+"The specified URL did not provide video data. Please use the address from "
+"the video portal in which a video is displayed as such and no index page."
 
-#: fau-video.php:176
-#@ fau-video
+#: ../fau-video.php:164
+msgid "Es können nur Videos vom Videoportal eingebunden werden."
+msgstr "Only videos from the video portal can be added."
+
+#: ../fau-video.php:168
 msgid "Fehlerhafte URL"
-msgstr "Invalid URL"
+msgstr "Incorrect URL"
 
-#: fau-video.php:230
-#@ fau-video-player
+#: ../fau-video.php:210
+#, php-format
+msgid ""
+"Ihre PHP-Version %s ist veraltet. Bitte aktualisieren Sie mindestens auf die "
+"PHP-Version %s."
+msgstr ""
+"Your server is running PHP version %s. Please upgrade at least to PHP "
+"version %s."
+
+#: ../fau-video.php:214
+#, php-format
+msgid ""
+"Ihre Wordpress-Version %s ist veraltet. Bitte aktualisieren Sie mindestens "
+"auf die Wordpress-Version %s."
+msgstr ""
+"Your Wordpress version is %s. Please upgrade at least to Wordpress version "
+"%s."
+
+#: ../fau-video.php:228
 msgid "Video aus dem Videoportal einbinden"
-msgstr ""
+msgstr "Add a video from the video portal"
 
-#: fau-video.php:249
-#@ fau-video-player
+#: ../fau-video.php:253
 msgid "Titel"
-msgstr ""
+msgstr "Title"
 
-#: fau-video.php:253
-#@ fau-video-player
+#: ../fau-video.php:257
 msgid "Video-URL"
-msgstr ""
+msgstr "Video URL"
 
-#: fau-video.php:264
-#@ fau-video-player
-msgid "Zeige Titel"
-msgstr ""
+#: ../fau-video.php:262
+msgid "Breite"
+msgstr "Width"
 
-#: fau-video.php:273
-#@ fau-video-player
-msgid "Zeige Metainformationen und Titel"
-msgstr ""
+#: ../fau-video.php:266
+msgid "Höhe"
+msgstr "Height"
 
+#: ../fau-video.php:270
+msgid "Vorschaubild-URL"
+msgstr "Thumbnail URL"
+
+#: ../fau-video.php:276
+msgid "Aus"
+msgstr "Off"
+
+#: ../fau-video.php:277
+msgid "An"
+msgstr "On"
+
+#: ../fau-video.php:280
+msgid "Zeige auch Videotitel"
+msgstr "Show title"
+
+#: ../fau-video.php:289
+msgid "Zeige Metainformationen und Videotitel"
+msgstr "Show metadata"
+
+#~ msgid "CMS-Basis"
+#~ msgstr "CMS Basis"
+
+#~ msgid "Einstellungen &rsaquo; CMS-Basis"
+#~ msgstr "Settings &rsaquo; CMS Basis"
+
+#~ msgid "Feld 1"
+#~ msgstr "Field 1"
+
+#~ msgid "Hier kommt der Inhalt der Kontexthilfe."
+#~ msgstr "Here comes the Context Help content."
+
+#~ msgid "Übersicht"
+#~ msgstr "Overview"
+
+#~ msgid "Für mehr Information"
+#~ msgstr "For more information"
+
+#~ msgid "RRZE-Webteam in Github"
+#~ msgstr "RRZE-Webteam on Github"
+
+#~ msgid "Titel der Meta-Box"
+#~ msgstr "Meta Box Title"
+
+#~ msgid "Bitte versuchen Sie es erneut"
+#~ msgstr "Please Try Again"
+
+#~ msgid "Embed entfernen"
+#~ msgstr "Remove Embed"
+
+#~ msgid "Keine oEmbed Ergebnisse für %s gefunden. Für weitere Infos siehe"
+#~ msgstr "No oEmbed Results Found for %s. View more info at"
+
+#~ msgid "Gruppe hinzufügen"
+#~ msgstr "Add Group"
+
+#~ msgid "Gruppe entfernen"
+#~ msgstr "Remove Group"
+
+#~ msgid "Zeile hinzufügen"
+#~ msgstr "Add Row"
+
+#~ msgid "Entfernen"
+#~ msgstr "Remove"
+
+#~ msgid "Keine Terms"
+#~ msgstr "No terms"
+
+#~ msgid "Datei hinzufügen"
+#~ msgstr "Add File"
+
+#~ msgid "Bild entfernen"
+#~ msgstr "Remove Image"
+
+#~ msgid "Datei:"
+#~ msgstr "File:"
+
+#~ msgid "Herunterladen"
+#~ msgstr "Download"
+
+#~ msgid "Löschen"
+#~ msgstr "Clear"
+
+#~ msgid "Standard"
+#~ msgstr "Default"
+
+#~ msgid "Farbe wählen"
+#~ msgstr "Select Color"
+
+#~ msgid "Aktuelle Farbe"
+#~ msgstr "Current Color"
+
+#~ msgid "Verwenden Sie diese Datei"
+#~ msgstr "Use this file"
+
+#~ msgid "[ ↑ ]&nbsp;"
+#~ msgstr "[ ↑ ]&nbsp;"
+
+#~ msgid "&nbsp;[ ↓ ]"
+#~ msgstr "&nbsp;[ ↓ ]"
+
+#~ msgid "Alle aktivieren / deaktivieren"
+#~ msgstr "Select / Deselect All"
+
+#~ msgid "Speichern"
+#~ msgstr "Save"
+
+#~ msgid "Neu hinzufügen"
+#~ msgstr "Add New"
+
+#~ msgid "Suchbegriff eingeben"
+#~ msgstr "Type to search"
+
+#~ msgid "Ziehen, um die genaue Position einzustellen."
+#~ msgstr "Drag to set the exact location."
+
+#~ msgid "Sind Sie sicher, dass Sie dieses Feld löschen wollen?"
+#~ msgstr "Are you sure you want to delete this field?"
+
+#~ msgid ""
+#~ "<p><strong>Für mehr Information:</strong></p><p><a href=\"http://blogs."
+#~ "fau.de/webworking\">RRZE-Webworking</a></p><p><a href=\"https://github."
+#~ "com/RRZE-Webteam\">RRZE-Webteam in Github</a></p>"
+#~ msgstr ""
+#~ "<p><strong>For more Information:</strong></p><p><a href=\"http://blogs."
+#~ "fau.de/webworking\">RRZE-Webworking</a></p><p><a href=\"https://github."
+#~ "com/RRZE-Webteam\">RRZE-Webteam on Github</a></p>"

@@ -1,0 +1,103 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: FAU Video\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-11-29 16:00+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: RRZE-Webteam <webmaster@rrze.fau.de>\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
+"_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_ex:1,2c;"
+"esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.8.11\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+
+#: ../fau-video.php:144
+msgid "Autor"
+msgstr ""
+
+#: ../fau-video.php:147
+msgid "Quelle"
+msgstr ""
+
+#: ../fau-video.php:149
+msgid "Copyright"
+msgstr ""
+
+#: ../fau-video.php:159
+msgid ""
+"Die angegebene URL lieferte keine Videodaten. Bitte verwenden Sie die "
+"Adresse aus dem Videoportal, in dem ein Video als solches auch angezeigt "
+"wird und keine Indexseite."
+msgstr ""
+
+#: ../fau-video.php:164
+msgid "Es können nur Videos vom Videoportal eingebunden werden."
+msgstr ""
+
+#: ../fau-video.php:168
+msgid "Fehlerhafte URL"
+msgstr ""
+
+#: ../fau-video.php:210
+#, php-format
+msgid ""
+"Ihre PHP-Version %s ist veraltet. Bitte aktualisieren Sie mindestens auf die "
+"PHP-Version %s."
+msgstr ""
+
+#: ../fau-video.php:214
+#, php-format
+msgid ""
+"Ihre Wordpress-Version %s ist veraltet. Bitte aktualisieren Sie mindestens "
+"auf die Wordpress-Version %s."
+msgstr ""
+
+#: ../fau-video.php:228
+msgid "Video aus dem Videoportal einbinden"
+msgstr ""
+
+#: ../fau-video.php:253
+msgid "Titel"
+msgstr ""
+
+#: ../fau-video.php:257
+msgid "Video-URL"
+msgstr ""
+
+#: ../fau-video.php:262
+msgid "Breite"
+msgstr ""
+
+#: ../fau-video.php:266
+msgid "Höhe"
+msgstr ""
+
+#: ../fau-video.php:270
+msgid "Vorschaubild-URL"
+msgstr ""
+
+#: ../fau-video.php:276
+msgid "Aus"
+msgstr ""
+
+#: ../fau-video.php:277
+msgid "An"
+msgstr ""
+
+#: ../fau-video.php:280
+msgid "Zeige auch Videotitel"
+msgstr ""
+
+#: ../fau-video.php:289
+msgid "Zeige Metainformationen und Videotitel"
+msgstr ""
