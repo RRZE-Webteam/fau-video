@@ -2,7 +2,7 @@
 /**
  * Plugin Name: FAU Video-Player
  * Description: Shortcode für Videos vom Videoportal
- * Version: 1.5.2
+ * Version: 1.5.3
  * Author: RRZE-Webteam
  * Author URI: http://blogs.fau.de/webworking/
  * License: GPLv2 or later
@@ -31,7 +31,6 @@ register_activation_hook(__FILE__, array('FAU_Video_Player', 'activate'));
 class FAU_Video_Player {
 
     const option_name = '_fau_video_player';
-    const version_option_name = '_fau_video_player_version';
     const php_version = '5.5'; // Minimal erforderliche PHP-Version
     const wp_version = '4.6'; // Minimal erforderliche WordPress-Version
 
@@ -190,8 +189,6 @@ class FAU_Video_Player {
         self::load_textdomain();
         
         self::system_requirements();
-        
-        update_option(self::version_option_name, self::version);
     }
 
     /*
