@@ -1,8 +1,7 @@
 fau-video
 =========
 
-WordPress-Plugin: Shortcode für Videoportal-Einbindung
-(verwendet den JW Player Free)
+WordPress-Plugin: Shortcode für FAU-Videoportal-Einbindung
 
 [fauvideo url=http://www.video.uni-erlangen.de/webplayer/id/13908]
 
