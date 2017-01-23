@@ -1,0 +1,38 @@
+.fau-video-portal .wp-video {
+	width: 100% !important;
+	height: 100% !important;
+        overflow: hidden;
+}
+ 
+.fau-video-portal .mejs-container{
+    
+    height: 100%!important;
+    width:100%!important;
+    
+     
+}
+
+div.fau-video-portal > div{
+    
+ height: 100%!important;
+    
+}
+
+.fau-video-url img{
+    
+    height: 100%;
+    width: 100%;
+    
+}
+
+.fau-video-portal .mejs-overlay-button{
+    
+    
+    height : 96px!important;
+}
+
+
+.fancybox-skin{
+    
+    border-radius: 0px!important;
+}
