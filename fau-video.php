@@ -1,27 +1,16 @@
 <?php
+
 /**
- * Plugin Name: FAU Video-Player
- * Description: Shortcode für Videos vom Videoportal
- * Version: 1.5.5
- * Author: RRZE-Webteam
- * Author URI: http://blogs.fau.de/webworking/
- * License: GPLv2 or later
- * Text Domain: fau-video-player
- */
-/*
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Plugin Name:     FAU Video-Player
+ * Plugin URI:      https://github.com/RRZE-Webteam/fau-video
+ * Description:     Shortcode für Videos vom Videoportal.
+ * Version:         1.5.6
+ * Author:          RRZE-Webteam
+ * Author URI:      https://blogs.fau.de/webworking/
+ * License:         GNU General Public License v2
+ * License URI:     http://www.gnu.org/licenses/gpl-2.0.html
+ * Domain Path:     /languages
+ * Text Domain:     fau-video
  */
 
 add_action('plugins_loaded', array('FAU_Video_Player', 'instance'));
@@ -32,7 +21,7 @@ class FAU_Video_Player {
 
     const option_name = '_fau_video_player';
     const php_version = '5.5'; // Minimal erforderliche PHP-Version
-    const wp_version = '4.7'; // Minimal erforderliche WordPress-Version
+    const wp_version = '4.8'; // Minimal erforderliche WordPress-Version
 
     private $videoportal = array('www.video.uni-erlangen.de', 'www.video.fau.de', 'video.fau.de', 'www.fau-tv.de', 'fau-tv.de', 'www.fau.tv', 'fau.tv');
     protected static $instance = null;
@@ -51,152 +40,29 @@ class FAU_Video_Player {
         self::load_textdomain();
 
         add_action('widgets_init', create_function('', 'return register_widget("FAUVideoWidget");'));
-        
+
         add_shortcode('fauvideo', array($this, 'shortcode'));
-    }
-
-    public function create_html($videourl = '', $placeholderimage = '', $width = '', $height = '', $showtitle = false, $showinfo = false, $titletag = 'h3') {
-     if (filter_var($videourl, FILTER_VALIDATE_URL)) {
-	    $url = $videourl;
-	    
-	    $image = ''; 
-	    if (filter_var($placeholderimage, FILTER_VALIDATE_URL)) {
-		$image = $placeholderimage;
-	    }
-	    
-	    $rand = rand();
-            $host = parse_url($url, PHP_URL_HOST);    
-            if (in_array($host, $this->videoportal)) {
-                $oembed_url = 'http://www.video.uni-erlangen.de/services/oembed/?url=' . $url . '&format=json';
-                $video = json_decode(wp_remote_retrieve_body(wp_safe_remote_get($oembed_url)), true);       
-		
-		$output = '';
-		$file = '';
-                
-                if (isset($video['file'])) {
-                    $file = $video['file'];
-                    
-		    if (filter_var($image, FILTER_VALIDATE_URL)) {
-			// nehme $image von der shortcodeeingabe
-		    } else {
-			if (empty($image)) {
-			    if (isset($video['image'])) {
-				$image = $video['image'];
-			    } else {
-				$image = plugins_url('/', __FILE__) . 'images/itunes_fau_800x400.png';
-			    } 
-			}
-		    }
-                    
-		    if (isset($video['width']) && isset($video['height'])) {
-			if (empty($width)) {
-			    if (empty($height)) {
-				$width = $video['width'];
-				$height = $video['height'];
-			    } else {
-				$width = ($video['width'] * $height) / $video['height'];
-			    }
-			} else {
-			    if (empty($height)) {
-				$height = ($video['height'] * $width) / $video['width'];                        
-			    }
-			}
-		    } 
-		    
-		    if ($showinfo) {
-			$showtitle = true;
-		    }
-                    
-		    $output .= '<div class="fauvideo-'.$rand.'" itemscope itemtype ="http://schema.org/Movie">';
-		    if (isset($video['title'])) {
-			$output .= "<$titletag itemprop=\"name\"";
-                        
-			if (!$showtitle) {
-			    $output .= " class=\"screen-reader-text\"";
-			}
-                        
-			$output .= ">".$video['title']."</$titletag>";
-		    }
-		    
-		    $output .= '<meta itemprop="contentUrl" content="'.$file.'">';
-		    $output .= '<meta itemprop="height" content="'.$video['height'].'">';
-		    $output .= '<meta itemprop="width" content="'.$video['width'].'">';
-		    if (isset($video['image'])) {
-			$output .= '<meta itemprop="thumbnailUrl" content="'.$video['image'].'">';
-		    }
-		    
-		    $loading = '<a href="'.$file.'"><img src="'.$image.'" alt=""></a>';
-		 
-                    echo $output;
-                    
-                    echo do_shortcode('[video preload="none" width="' . $width . '" height="' . absint($height - 20) . '" src="' . $file . '" poster="' . $image . '"][/video]');
-                    
-                    $output='';
-		    
-		    if ($showinfo) {                       
-			 $output .= "<ul class=\"info\">\n";
-                         
-			 if (isset($video['author_name'])) {
-			    $output .= '<li>'.__('Autor','fau-video').': <span class="actor">'.$video['author_name'].'</span></li>'."\n";
-			 }
-                         
-			 $output .= '<li>'.__('Quelle','fau-video').': <a href="'.$url.'" class="isBasedOnUrl">'.$url.'</a></li>'."\n";
-			 if (isset($video['provider_name'])) {
-			    $output .= '<li>'.__('Copyright','fau-video').': <a href="'.$video['provider_url'].'"><span class="publisher">'.$video['provider_name'].'</span></a></li>'."\n";
-			 }
-                         
-			 $output .= "</ul>\n";
-		    }
-                    
-		    $output .= "</div>\n";
-		   
-                    echo $output;
-		} else {
-		    _e('Die angegebene URL lieferte keine Videodaten. Bitte verwenden Sie die Adresse aus dem Videoportal, in dem ein Video als solches auch angezeigt wird und keine Indexseite.', 'fau-video');
-		}
-		
-		return $output;
-            } else {
-                _e('Es können nur Videos vom Videoportal eingebunden werden.', 'fau-video');
-            }
-	    
-	} else {
-	    _e('Fehlerhafte URL','fau-video');
-	}
-    }
-
-    public function shortcode($atts) {
-        $default = array(
-            'url' => '',
-            'image' => '',
-            'width' => '',
-            'height' => '',
-            'showtitle' => false,
-            'showinfo' => false,
-            'titletag' => 'h2'
-        );
-        $atts = shortcode_atts($default, $atts);
-        extract($atts);
-
-        return $this->create_html($url, $image, $width, $height, $showtitle, $showinfo, $titletag);
+        
+        add_action('wp_enqueue_scripts', array($this, 'enqueue_style'));
     }
 
     // Einbindung der Sprachdateien.
-    private static function load_textdomain() {    
-        load_plugin_textdomain('cms-basis', false, sprintf('%s/languages/', dirname(plugin_basename(__FILE__))));
+    private static function load_textdomain() {
+        load_plugin_textdomain('fau-video', false, sprintf('%s/languages/', dirname(plugin_basename(__FILE__))));
     }
-    
+
     public static function activate() {
         // Sprachdateien werden eingebunden.
         self::load_textdomain();
-        
+
         self::system_requirements();
     }
 
     /*
      * Überprüft die minimal erforderliche PHP- u. WP-Version.
      * @return void
-     */    
+     */
+
     private static function system_requirements() {
         $error = '';
 
@@ -214,6 +80,140 @@ class FAU_Video_Player {
         }
     }
 
+    public function enqueue_style() {
+        $min = defined('WP_DEBUG') && WP_DEBUG ? '' : '.min';
+        wp_register_style('fau-video-shortcode', plugins_url("css/shortcode$min.css", __FILE__));
+    }
+    
+    public function shortcode($atts) {
+        $default = array(
+            'url' => '',
+            'image' => '',
+            'width' => '',
+            'height' => '',
+            'showtitle' => false,
+            'showinfo' => false,
+            'titletag' => 'h3'
+        );
+        $atts = shortcode_atts($default, $atts);
+        extract($atts);
+
+        if (is_feed()) {
+            if (filter_var($url, FILTER_VALIDATE_URL)) {
+                return sprintf('<a href="%1$s">%1$s</a>', $url);
+            } else {
+                return '';
+            }
+        }
+        
+        wp_enqueue_style('fau-video-shortcode');
+        
+        return $this->create_html($url, $image, $width, $height, $showtitle, $showinfo, $titletag);
+    }
+    
+    public function create_html($videourl = '', $placeholderimage = '', $width = '', $height = '', $showtitle = false, $showinfo = false, $titletag = 'h3') {
+        if (filter_var($videourl, FILTER_VALIDATE_URL)) {
+            $url = $videourl;
+
+            $image = '';
+            if (filter_var($placeholderimage, FILTER_VALIDATE_URL)) {
+                $image = $placeholderimage;
+            }
+
+            $rand = rand();
+            $host = parse_url($url, PHP_URL_HOST);
+            if (in_array($host, $this->videoportal)) {
+                $oembed_url = 'http://www.video.uni-erlangen.de/services/oembed/?url=' . $url . '&format=json';
+                $video = json_decode(wp_remote_retrieve_body(wp_safe_remote_get($oembed_url)), true);
+
+                $output = '';
+                $file = '';
+
+                if (isset($video['file'])) {
+                    $file = $video['file'];
+
+                    if (filter_var($image, FILTER_VALIDATE_URL)) {
+                        // nehme $image von der shortcodeeingabe
+                    } else {
+                        if (empty($image)) {
+                            if (isset($video['image'])) {
+                                $image = $video['image'];
+                            } else {
+                                $image = plugins_url('/', __FILE__) . 'images/itunes_fau_800x400.png';
+                            }
+                        }
+                    }
+
+                    if (isset($video['width']) && isset($video['height'])) {
+                        if (empty($width)) {
+                            if (empty($height)) {
+                                $width = $video['width'];
+                                $height = $video['height'];
+                            } else {
+                                $width = ($video['width'] * $height) / $video['height'];
+                            }
+                        } else {
+                            if (empty($height)) {
+                                $height = ($video['height'] * $width) / $video['width'];
+                            }
+                        }
+                    }
+
+                    if ($showinfo) {
+                        $showtitle = true;
+                    }
+
+                    $output .= '<div class="fau-video-shortcode fauvideo-' . $rand . '" itemscope itemtype ="http://schema.org/Movie">';
+                    if (isset($video['title'])) {
+                        $output .= "<$titletag itemprop=\"name\"";
+
+                        if (!$showtitle) {
+                            $output .= " class=\"screen-reader-text\"";
+                        }
+
+                        $output .= ">" . $video['title'] . "</$titletag>";
+                    }
+
+                    $output .= '<meta itemprop="contentUrl" content="' . $file . '">';
+                    $output .= '<meta itemprop="height" content="' . $video['height'] . '">';
+                    $output .= '<meta itemprop="width" content="' . $video['width'] . '">';
+                    if (isset($video['image'])) {
+                        $output .= '<meta itemprop="thumbnailUrl" content="' . $video['image'] . '">';
+                    }
+
+                    $loading = '<a href="' . $file . '"><img src="' . $image . '" alt=""></a>';
+
+                    $output .= do_shortcode('[video preload="none" width="' . $width . '" height="' . absint($height - 20) . '" src="' . $file . '" poster="' . $image . '"][/video]');
+
+                    if ($showinfo) {
+                        $output .= "<ul class=\"info\">\n";
+
+                        if (isset($video['author_name'])) {
+                            $output .= '<li>' . __('Autor', 'fau-video') . ': <span class="actor">' . $video['author_name'] . '</span></li>' . "\n";
+                        }
+
+                        $output .= '<li>' . __('Quelle', 'fau-video') . ': <a href="' . $url . '" class="isBasedOnUrl">' . $url . '</a></li>' . "\n";
+                        if (isset($video['provider_name'])) {
+                            $output .= '<li>' . __('Copyright', 'fau-video') . ': <a href="' . $video['provider_url'] . '"><span class="publisher">' . $video['provider_name'] . '</span></a></li>' . "\n";
+                        }
+
+                        $output .= "</ul>\n";
+                    }
+
+                    $output .= "</div>\n";
+                } else {
+                    _e('Die angegebene URL lieferte keine Videodaten. Bitte verwenden Sie die Adresse aus dem Videoportal, in dem ein Video als solches auch angezeigt wird und keine Indexseite.', 'fau-video');
+                }
+
+                return $output;
+            } else {
+                _e('Es können nur Videos vom Videoportal eingebunden werden.', 'fau-video');
+            }
+        } else {
+            _e('Fehlerhafte URL', 'fau-video');
+        }
+    }
+    
 }
 
 class FAUVideoWidget extends WP_Widget {
@@ -271,7 +271,7 @@ class FAUVideoWidget extends WP_Widget {
                 <option value="1" <?php selected(true, $showtitle); ?>><?php _e('An', 'fau-video'); ?></option>
             </select>
             <label for="<?php echo $this->get_field_id('showtitle'); ?>">
-                <?php _e('Zeige auch Videotitel', 'fau-video'); ?>
+        <?php _e('Zeige auch Videotitel', 'fau-video'); ?>
             </label>
         </p>	
         <p>
@@ -280,7 +280,7 @@ class FAUVideoWidget extends WP_Widget {
                 <option value="1" <?php selected(true, $showinfo); ?>>An</option>
             </select>
             <label for="<?php echo $this->get_field_id('showinfo'); ?>">
-                <?php _e('Zeige Metainformationen und Videotitel', 'fau-video'); ?>
+        <?php _e('Zeige Metainformationen und Videotitel', 'fau-video'); ?>
             </label>
         </p>
         <?php
@@ -292,7 +292,7 @@ class FAUVideoWidget extends WP_Widget {
         $instance['url'] = esc_url($new_instance['url']);
         $instance['imageurl'] = esc_url($new_instance['imageurl']);
         $instance['showtitle'] = absint($new_instance['showtitle']) ? true : false;
-        $instance['showinfo'] = absint($new_instance['showinfo']) ? true : false;        
+        $instance['showinfo'] = absint($new_instance['showinfo']) ? true : false;
         $instance['width'] = absint($new_instance['width']);
         $instance['height'] = absint($new_instance['height']);
         return $instance;
@@ -306,7 +306,7 @@ class FAUVideoWidget extends WP_Widget {
         if (!empty($instance['title'])) {
             echo '<h2 class="small">' . $instance['title'] . '</h2>';
         }
-        
+
         $url = esc_url($instance['url']);
         $imageurl = esc_url($instance['imageurl']);
         $showtitle = absint($instance['showtitle']) ? true : false;
@@ -314,12 +314,9 @@ class FAUVideoWidget extends WP_Widget {
         $width = absint($instance['width']);
         $height = absint($instance['height']);
         $vp = new FAU_Video_Player;
-        $vp->create_html($url, $imageurl, $width, $height, $showtitle, $showinfo);
- 
+        echo $vp->create_html($url, $imageurl, $width, $height, $showtitle, $showinfo);
+
         echo $after_widget;
     }
 
 }
-
-   
-       

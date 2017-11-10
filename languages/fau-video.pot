@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FAU Video\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-29 16:00+0100\n"
+"POT-Creation-Date: 2017-11-10 10:50+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: RRZE-Webteam <webmaster@rrze.fau.de>\n"
@@ -17,87 +17,87 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 2.0.4\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: ..\n"
 
-#: ../fau-video.php:144
-msgid "Autor"
-msgstr ""
-
-#: ../fau-video.php:147
-msgid "Quelle"
-msgstr ""
-
-#: ../fau-video.php:149
-msgid "Copyright"
-msgstr ""
-
-#: ../fau-video.php:159
-msgid ""
-"Die angegebene URL lieferte keine Videodaten. Bitte verwenden Sie die "
-"Adresse aus dem Videoportal, in dem ein Video als solches auch angezeigt "
-"wird und keine Indexseite."
-msgstr ""
-
-#: ../fau-video.php:164
-msgid "Es können nur Videos vom Videoportal eingebunden werden."
-msgstr ""
-
-#: ../fau-video.php:168
-msgid "Fehlerhafte URL"
-msgstr ""
-
-#: ../fau-video.php:210
+#: ../fau-video.php:70
 #, php-format
 msgid ""
 "Ihre PHP-Version %s ist veraltet. Bitte aktualisieren Sie mindestens auf die "
 "PHP-Version %s."
 msgstr ""
 
-#: ../fau-video.php:214
+#: ../fau-video.php:74
 #, php-format
 msgid ""
 "Ihre Wordpress-Version %s ist veraltet. Bitte aktualisieren Sie mindestens "
 "auf die Wordpress-Version %s."
 msgstr ""
 
-#: ../fau-video.php:228
+#: ../fau-video.php:192
+msgid "Autor"
+msgstr ""
+
+#: ../fau-video.php:195
+msgid "Quelle"
+msgstr ""
+
+#: ../fau-video.php:197
+msgid "Copyright"
+msgstr ""
+
+#: ../fau-video.php:205
+msgid ""
+"Die angegebene URL lieferte keine Videodaten. Bitte verwenden Sie die "
+"Adresse aus dem Videoportal, in dem ein Video als solches auch angezeigt "
+"wird und keine Indexseite."
+msgstr ""
+
+#: ../fau-video.php:210
+msgid "Es können nur Videos vom Videoportal eingebunden werden."
+msgstr ""
+
+#: ../fau-video.php:213
+msgid "Fehlerhafte URL"
+msgstr ""
+
+#: ../fau-video.php:222
 msgid "Video aus dem Videoportal einbinden"
 msgstr ""
 
-#: ../fau-video.php:253
+#: ../fau-video.php:247
 msgid "Titel"
 msgstr ""
 
-#: ../fau-video.php:257
+#: ../fau-video.php:251
 msgid "Video-URL"
 msgstr ""
 
-#: ../fau-video.php:262
+#: ../fau-video.php:256
 msgid "Breite"
 msgstr ""
 
-#: ../fau-video.php:266
+#: ../fau-video.php:260
 msgid "Höhe"
 msgstr ""
 
-#: ../fau-video.php:270
+#: ../fau-video.php:264
 msgid "Vorschaubild-URL"
 msgstr ""
 
-#: ../fau-video.php:276
+#: ../fau-video.php:270
 msgid "Aus"
 msgstr ""
 
-#: ../fau-video.php:277
+#: ../fau-video.php:271
 msgid "An"
 msgstr ""
 
-#: ../fau-video.php:280
+#: ../fau-video.php:274
 msgid "Zeige auch Videotitel"
 msgstr ""
 
-#: ../fau-video.php:289
+#: ../fau-video.php:283
 msgid "Zeige Metainformationen und Videotitel"
 msgstr ""
